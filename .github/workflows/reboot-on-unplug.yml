@@ -1,12 +1,14 @@
 name: build pex for reboot-on-unplug
 
+permissions:
+  contents: write
+
 on:
   push:
     paths:
       - "reboot-on-unplug/**"
-  pull_request:
-    paths:
-      - "reboot-on-unplug/**"
+    branches:
+      - main
 
 jobs:
   build:
