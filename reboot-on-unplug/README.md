@@ -1,7 +1,7 @@
 # Reboot on unplug
 
 A small utility script that reboots its host when it detects that a USB device
-was unplugged, used during the headless install of servers in my homelab.
+was unplugged. It is used during the headless install of servers in my homelab.
 
 The USB is identified with its vendor ID and model ID given as parameters.
 
