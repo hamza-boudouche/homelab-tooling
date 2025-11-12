@@ -1,0 +1,61 @@
+name: build pex for reboot-on-unplug
+
+on:
+  push:
+    paths:
+      - "reboot-on-unplug/**"
+  pull_request:
+    paths:
+      - "reboot-on-unplug/**"
+
+jobs:
+  build:
+    name: Build PEX package
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: reboot-on-unplug
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pex
+
+      - name: Build PEX file
+        run: |
+          mkdir -p dist
+          pex . -o dist/reboot-on-unplug.pex -e main:main
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: reboot-on-unplug-pex
+          path: reboot-on-unplug/dist/reboot-on-unplug.pex
+  release:
+    name: Publish release
+    runs-on: ubuntu-latest
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+
+    steps:
+      - name: Download built artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: project-a-pex
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: reboot-on-unplug.pex
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
