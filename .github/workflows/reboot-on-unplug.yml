@@ -9,6 +9,8 @@ on:
       - "reboot-on-unplug/**"
     branches:
       - main
+    tags:
+      - 'v*'
 
 jobs:
   build:
