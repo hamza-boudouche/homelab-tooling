@@ -51,7 +51,7 @@ jobs:
       - name: Download built artifact
         uses: actions/download-artifact@v4
         with:
-          name: project-a-pex
+          name: reboot-on-unplug-pex
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
