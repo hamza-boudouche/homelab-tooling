@@ -38,7 +38,7 @@ jobs:
       - name: Build PEX file
         run: |
           mkdir -p dist
-          pex . -o dist/reboot-on-unplug.pex -e main:main
+          pex . -o dist/reboot-on-unplug.pex -e main:main --interpreter-constraint "CPython>=3.12"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
